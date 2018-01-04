@@ -66,7 +66,8 @@ def create_pool(loop, **kw):
         autocommit = kw.get('autocommit', True),
         maxsize = kw.get('maxsize', 10),
         minsize = kw.get('minsize', 1),
-        loop = loop
+        loop = loop,
+        charset ='utf8'
     )
 
 @asyncio.coroutine
@@ -133,6 +134,17 @@ class Model(dict, metaclass = ModelMetaclass):
         if len(rs) == 0:
             return None
         return cls(**rs[0])
+
+    @classmethod
+    async def findNumber(cls, selectField, where = None, args = None):
+        sql = ['select %s _num_ from `%s`' % (selectField, cls.__table__)]
+        if where:
+            sql.append('where')
+            sql.append(where)
+        rs = await select(' '.join(sql), args, 1)
+        if len(rs) == 0:
+            return None
+        return rs[0]['_num_']
 
     @classmethod
     async def findAll(cls, where=None, args=None, **kw):
