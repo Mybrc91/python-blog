@@ -10,7 +10,9 @@ function initVM(data) {
         el:'#vm',
         data: {
             blogs: data.blogs,
-            page: data.page
+            page: data.page,
+            fileedit: 'icon: file-edit',
+            trash: 'icon: trash'
         },
         methods: {
             edit_blog: function (blog) {
@@ -73,11 +75,11 @@ $(function() {
 
         <table class="uk-table uk-table-hover">
             <thead>
-                <tr>
-                    <th class="uk-width-5-10">标题 / 摘要</th>
-                    <th class="uk-width-2-10">作者</th>
-                    <th class="uk-width-2-10">创建时间</th>
-                    <th class="uk-width-1-10">操作</th>
+                <tr class="uk-column-1-4">
+                    <th >标题 / 摘要</th>
+                    <th >作者</th>
+                    <th >创建时间</th>
+                    <th >操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -92,8 +94,8 @@ $(function() {
                         <span v-text="blog.created_at.toDateTime()"></span>
                     </td>
                     <td >
-                        <a href="#0" @click="edit_blog(blog)" class="uk-icon-link uk-margin-small-right" uk-icon="icon: file-edit"  ></a>
-                        <a href="#0"  @click="delete_blog(blog)" class="uk-icon-link uk-margin-small-right" uk-icon="icon: trash" ></a>
+                        <a href="#0" @click="edit_blog(blog)" class="uk-icon-link uk-margin-small-right" :uk-icon="fileedit"  ></a>
+                        <a href="#0"  @click="delete_blog(blog)" class="uk-icon-link uk-margin-small-right" :uk-icon="trash" ></a>
                     </td>
                 </tr>
             </tbody>

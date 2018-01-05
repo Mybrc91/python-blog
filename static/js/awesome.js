@@ -120,6 +120,7 @@ function parseQueryString() {
 
 function gotoPage(i) {
     var r = parseQueryString();
+    console.log(r)
     r.page = i;
     location.assign('?' + $.param(r));
 }
@@ -134,6 +135,7 @@ function refresh() {
     else {
         url = url + '?t=' + t;
     }
+    console.log('refresh');
     location.assign(url);
 }
 
@@ -359,13 +361,18 @@ if (typeof(Vue)!=='undefined') {
     });
     Vue.component('pagination', {
         template: '<ul class="uk-pagination">' +
-                '<li v-if="! page.has_previous" class="uk-disabled"><span><i uk-icon="icon:triangle-left"></i></span></li>' +
-                '<li v-if="page.has_previous"><a @onclick="\'gotoPage(\' + (page.page_index-1) + \')\'" href="#0"><i class="uk-icon-angle-double-left"></i></a></li>' +
+                '<li v-if="!page.has_previous" class="uk-disabled"><span><i uk-icon="icon:triangle-left"></i></span></li>' +
+                '<li v-if="page.has_previous"><a @click="goto_page(  (page.page_index-1) )" href="#0"><i uk-icon="icon:triangle-left"></i></a></li>' +
                 '<li class="uk-active"><span>{{page.page_index}}</span></li>' +
-                '<li v-if="! page.has_next" class="uk-disabled"><span><i uk-icon="icon:triangle-right"></i></span></li>' +
-                '<li v-if="page.has_next"><a @onclick="\'gotoPage(\' + (page.page_index+1) + \')\'" href="#0"><i class="uk-icon-angle-double-right"></i></a></li>' +
+                '<li v-if="!page.has_next" class="uk-disabled"><span><i uk-icon="icon:triangle-right"></i></span></li>' +
+                '<li v-if="page.has_next"><a @click="goto_page(  (page.page_index+1) )" href="#0"><i uk-icon="icon:triangle-right"></i></a></li>' +
             '</ul>',
-        props:['page']
+        props:['page'],
+        methods: {
+            goto_page: function (i) {
+                gotoPage(i)
+            }
+        }
     });
 }
 
